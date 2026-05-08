@@ -697,4 +697,6 @@ The vNext adapter accepts the standard `PostgresStore` connection options plus:
 
 The adapter declares the `insert-only` observability strategy. Use `maxBatchSize: 1` on the default exporter to emulate realtime semantics during local development.
 
+The OLAP queries that back the Studio dashboards (metric aggregate, breakdown, time series, percentiles, plus the score and feedback equivalents) are implemented with standard Postgres aggregates (`SUM`, `AVG`, `percentile_cont`, `FILTER (WHERE ...)`) and a portable epoch-floor bucket expression. The same query plan works on vanilla Postgres and on a TimescaleDB hypertable.
+
 Retention cleanup is intentionally not implemented in this release. The partitioning skeleton is designed so a future `mastra retention` CLI command can drop or compress old partitions without further migrations.
